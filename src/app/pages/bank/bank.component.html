@@ -1,39 +1,184 @@
 <div class="container">
-    <div class="row col-md-6">
 
-        <form>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="nombre">Nombre del Banco</label>
-                    <input type="text" class="form-control" id="nombre" placeholder="Nombre del Banco">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputPassword4">Numero de la Cuenta</label>
-                    <input type="text" class="form-control" id="inputPassword4" placeholder="Numero de la Cuenta">
-                </div>
-            </div>
+    <div class="row">
 
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="email">Email de contacto</label>
-                    <input type="email" class="form-control" id="email" placeholder="Email de contacto">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputPassword4">Telefono de contacto</label>
-                    <input type="text" class="form-control" id="inputPassword4" placeholder="Telefono de contacto">
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex no-block">
+                        <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon/expense.png" alt="Income"></div>
+                        <div class="align-self-center">
+                            <h6 class="text-muted m-t-10 m-b-0">Total Balance</h6>
+                            <h2 class="m-t-0">{{total | currency}}</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label for="inputAddress">Direccion </label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="Direccion, Ciudad, cp">
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex no-block">
+                        <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon/expense.png" alt="Income"></div>
+                        <div class="align-self-center">
+                            <h6 class="text-muted m-t-10 m-b-0">Total Deposit</h6>
+                            <h2 class="m-t-0">{{total | currency}}</h2>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="inputAddress2">Observaciones</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Fecha de apertura, cuenta de cheques, cuenta de inversion ">
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex no-block">
+                        <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon/expense.png" alt="Income"></div>
+                        <div class="align-self-center">
+                            <h6 class="text-muted m-t-10 m-b-0">Total Check</h6>
+                            <h2 class="m-t-0">{{total | currency}}</h2>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <button type="submit" class="btn btn-primary">Enviar</button>
-        </form>
+
+
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <form [formGroup]="form" (ngSubmit)="save()" novalidate="novalidate">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <!-- <label for="nombre">ID</label> -->
+                        <input type="text" readonly="readonly" formControlName="id" name="nameBank" class="form-control input-sm" id="nombre" placeholder="Id Banco">
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger': !form.get('nameBank').valid}">
+                        <!-- <label for="nombre">Nombre del Banco</label> -->
+                        <input type="text" formControlName="nameBank" name="nameBank" class="form-control" id="nombre" placeholder="Nombre del Banco">
+                        <!-- <div *ngIf="form.controls['nameBank'].errors?.required" class="form-control-feedback">
+                            <small>El nombre del Banco es necesario</small>
+                        </div> -->
+                        <div *ngIf="form.controls['nameBank'].errors?.minlength" class="form-control-feedback">
+                            <small>4 letras</small>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger': !form.get('accountNumber').valid}">
+                        <!-- <label for="inputPassword4">Numero de la Cuenta</label> -->
+                        <input type="text" formControlName="accountNumber" name="accountNumber" class="form-control" id="inputPassword4" placeholder="Numero de la Cuenta">
+                        <div *ngIf="form.controls['accountNumber'].errors?.minlength" class="form-control-feedback">
+                            <small>minimo 5 caracteres</small>
+                        </div>
+                        <div *ngIf="form.controls['accountNumber'].errors?.pattern" class="form-control-feedback">
+                            <small>solo se aceptan numeros</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger': !form.get('email').valid}">
+                        <!-- <label for="email">Email de contacto</label> -->
+                        <input type="email" formControlName="email" name="email" class="form-control" id="email" placeholder="Email de contacto">
+                        <div *ngIf="form.controls['email'].errors?.pattern" class="form-control-feedback">
+                            <small>formato de email es incorrecto </small>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger': !form.get('phone').valid}">
+                        <!-- <label for="inputPassword4">Telefono de contacto</label> -->
+                        <input type="text" formControlName="phone" name="phone" class="form-control" id="inputPassword4" placeholder="Telefono de contacto">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6" [ngClass]="{'has-danger': !form.get('balance').valid}">
+                        <label for="balance">Balance Inicial</label>
+                        <input type="number" formControlName="balance" name="balance" class="form-control" id="balance" placeholder="$ 00000.00">
+                        <div *ngIf="form.controls['balance'].errors?.pattern" class="form-control-feedback">
+                            <small>error en el formato: moneda con dos decimales </small>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group" [ngClass]="{'has-danger': !form.get('address').valid}">
+                    <!-- <label for="inputAddress">Direccion </label> -->
+                    <input type="text" formControlName="address" name="address" class="form-control" id="inputAddress" placeholder="Direccion, Ciudad, cp">
+                </div>
+                <div class="form-group" [ngClass]="{'has-danger': !form.get('observation').valid}">
+                    <!-- <label for="inputAddress2">Observaciones</label> -->
+                    <input type="text" formControlName="observation" name="observation" class="form-control" id="inputAddress2" placeholder="Fecha de apertura, cuenta de cheques, cuenta de inversion ">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-10">
+                        <label [hidden]="form.valid" class="text-danger">Llene todos los campos para poder enviar</label>
+                        <label [hidden]="!form.valid" class="text-info">La forma esta lista para enviar</label>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Enviar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <table class="table table-striped table-sm table-hover">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th scope="col ">#</th>
+                            <th scope="col ">Nombre</th>
+                            <th scope="col ">No. Cuenta</th>
+                            <th scope="col ">Contacto</th>
+                            <th scope="col ">Balance</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bank of bankaccounts">
+                            <th scope="row ">{{bank.id}}</th>
+                            <td>{{bank.nameBank}}</td>
+                            <td>{{bank.accountNumber}}</td>
+                            <td>{{bank.email}}</td>
+                            <td>{{bank.balance | currency}}</td>
+
+
+                        </tr>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+
+
+                        <td>
+
+                        </td>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex no-block">
+                                <div class="m-r-20 align-self-center"><span class="lstick m-r-20"></span><img src="../assets/images/icon/expense.png" alt="Income"></div>
+                                <div class="align-self-center">
+                                    <h6 class="text-muted m-t-10 m-b-0">Total Expense</h6>
+                                    <h2 class="m-t-0">{{total | currency}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

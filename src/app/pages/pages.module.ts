@@ -1,10 +1,13 @@
-
 import { NgModule } from '@angular/core';
 import { PAGES_ROUTES } from './pages.routes';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { BrowserModule } from '@angular/platform-browser';
+import { SharedModule } from '../shared/shared.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 // Angular Material
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import {MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -13,9 +16,8 @@ import {MatFormFieldModule,
         MatRippleModule,
         MatSelectModule} from '@angular/material';
 
-import { SharedModule } from '../shared/shared.module';
 
-import { FormsModule } from '@angular/forms';
+// import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 
@@ -58,23 +60,25 @@ import { BankComponent } from './bank/bank.component';
     exports: [
         DashboardComponent,
         ProgressComponent,
-        Graficas1Component
+        Graficas1Component,
+        BankComponent
     ],
     imports: [
         CommonModule,
         MatFormFieldModule,
         MatNativeDateModule,
         MatDatepickerModule,
-        BrowserAnimationsModule,
         MatButtonModule,
         MatInputModule,
         MatSelectModule,
         MatRippleModule,
         SharedModule,
         PAGES_ROUTES,
-        FormsModule,
+        BrowserModule,
         ChartsModule,
-        PipesModule
+        PipesModule,
+        FormsModule,
+        ReactiveFormsModule
     ]
 })
 export class PagesModule { }
