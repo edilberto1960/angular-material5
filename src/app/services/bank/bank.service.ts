@@ -14,6 +14,7 @@ export class BankService {
   usuario: Usuario;
   token: string;
   private urlEndPoint = URL_SERVICIOS;
+  private urlEndUpdate = URL_SERVICIOS + '/api/bank';
   private httpHeaders = new HttpHeaders();
   // private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
@@ -47,4 +48,15 @@ export class BankService {
     .pipe(
       map(response => response as BankAccount[]));
   }
+
+  updateBankAccount(data: BankAccount): Observable<BankAccount> {
+      console.log('Token', this.token);
+
+    this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.token});
+      // url += '?token=' + this.token;
+      return this.http.put<BankAccount>(`${this.urlEndUpdate}/${data.id}`, data, {headers: this.httpHeaders});
+      // .pipe(
+      //   map(response => response as BankAccount));
+    }
+
 }

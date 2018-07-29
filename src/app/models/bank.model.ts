@@ -2,12 +2,12 @@
 export class BankAccount {
 
     public id: number;
-    public nameBank: String;
-    public accountNumber: String;
-    public address: String;
-    public email: String;
-    public phone: String;
-    public observation: String;
+    public nameBank: string;
+    public accountNumber: string;
+    public address: string;
+    public email: string;
+    public phone: string;
+    public observation: string;
     public balance: number;
 
 }

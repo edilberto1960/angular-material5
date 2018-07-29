@@ -17,6 +17,8 @@ export class BankComponent implements OnInit {
 
    // tslint:disable-next-line:no-inferrable-types
    total: number = 0;
+   // tslint:disable-next-line:no-inferrable-types
+   update: boolean = true;
 
    bankAccount = {
       'id': null,
@@ -26,7 +28,7 @@ export class BankComponent implements OnInit {
      'email': '',
      'phone': '',
      'observation': '',
-     'balance': ''
+     'balance': 0.00
    };
 
 
@@ -72,11 +74,57 @@ export class BankComponent implements OnInit {
        this.create(jsonData);
         }
 
+        updateForm() {
+          console.log('UPDATE THIS ITEMS');
+     
+         console.log('THIS FORM: ', this.form);
+           // tslint:disable-next-line:prefer-const
+           let data = JSON.stringify(this.form.value);
+           console.log('-----Team in JSON Format-----');
+           console.log(data);
+           // tslint:disable-next-line:prefer-const
+           let jsonData = JSON.parse(data);
+           console.log('jsonData ', jsonData);
+           // console.log(jsonData.invoiceItems[0].qty);
+            this.updateBank(jsonData);
+
+          }
+
+
+
         create(data) {
 
           this.bankService.create(data).subscribe( res => {
             console.log(res);
              swal('Mensaje del Servidor...', `La cuenta de ${res.nameBank}: ${res.accountNumber} se guardo con exito`, 'success');
+             this.form.setValue(this.bankAccount);
+             this.getAllBankAccounts();
+          },
+         error => {
+           console.log(error, '  / ', error.error);
+           swal('Mensaje del Servidor:', `Error!!...El numero de la cuenta: ${data.accountNumber} ya existe `, 'error');
+
+         }
+      );
+        }
+
+        updateBank(data) {
+          console.log('INSIDE OF UPDATE');
+
+          this.bankService.updateBankAccount(data).subscribe( res => {
+            console.log(res);
+             swal('Mensaje del Servidor...', `La cuenta de ${res.nameBank}: ${res.accountNumber} se actualizo con exito`, 'success');
+             this.bankAccount = {
+              'id': null,
+             'nameBank': '',
+             'accountNumber': '',
+             'address': '',
+             'email': '',
+             'phone': '',
+             'observation': '',
+             'balance': null
+           };
+             this.update = true;
              this.form.setValue(this.bankAccount);
              this.getAllBankAccounts();
           },
@@ -104,13 +152,23 @@ export class BankComponent implements OnInit {
           }
 
         calcTotal() {
-
+        this.total = 0.00;
           for ( let i = 0; i < this.bankaccounts.length; i ++) {
 
             this.total = this.total + this.bankaccounts[i].balance;
         }
         console.log('Total ', this.total);
 
+
+        }
+
+        select(id) {
+        console.log('Id', id);
+
+              this.bankAccount = this.bankaccounts[id - 1];
+              console.log('bankAccount ', this.bankAccount);
+              this.update = false;
+              this.form.setValue(this.bankAccount);
 
         }
 

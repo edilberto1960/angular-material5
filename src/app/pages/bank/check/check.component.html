@@ -1,0 +1,171 @@
+<form class="form-material m-t-40" [formGroup]="form">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Alimentos Naturales de Trigo Germinado S.A. de C.V.</h4>
+                        <mat-form-field>
+                            <input type="text" placeholder="Banco:" matInput formControlName="bank" (focus)="filterBank()" [matAutocomplete]="auto1">
+                            <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayBankFn">
+                                <mat-option *ngFor="let option of filteredBankOptions | async" [value]="option">
+                                    {{ option.name }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <div class="row">
+                            <div class="col-md-4">-</div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="card-subtitle">fecha de emision</label>
+                                    <input type="date" class="form-control form-control-line" formControlName="date" placeholder="Fecha de expedicion">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="card-subtitle">fecha de operacion</label>
+                                    <input type="date" class="form-control form-control-line" formControlName="date" placeholder="Fecha de expedicion">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+
+                                    <mat-form-field class="input-full-width">
+                                        <input type="text" placeholder="Extendido a Nombre de" matInput formControlName="cliente" (focus)="filterUser()" [matAutocomplete]="auto2">
+                                        <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn">
+                                            <mat-option *ngFor="let cliente of filteredOptions | async" [value]="cliente">
+                                                {{ cliente.name }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text" formControlName="total" class="form-control form-control-line" aria-label="Amount (to the nearest dollar)">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <mat-form-field class="input-full-width">
+                                <input type="text" matInput formControlName="observation" placeholder="Observaciones">
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">-</div>
+                            <div class="col-md-4">-</div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-line" placeholder="Autorizacion">
+                                </div>
+                            </div>
+                        </div>
+
+                        <span class="label label-info">Banco : {{banks.name}} | {{banks.account}} | No.Cheque 00322555 </span>
+                        <!-- <h6 class="card-subtitle">Banco : {{banks.name}} | {{banks.account}} | No.Cheque 00322555 </h6> -->
+                    </div>
+                </div>
+
+                <!-- Poliza -->
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-12">
+                            <div class="ribbon-wrapper card">
+                                <div class="ribbon ribbon-bookmark ribbon-default">Ribbon</div>
+                                <p class="ribbon-content">Duis mollis, est non commodo luctus, nisi erat porttitor ligula</p>
+                            </div>
+                        </div>
+                        <!-- <form class="form-material m-t-40" [formGroup]="form"> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Concepto</label>
+                                    <textarea class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card-body">
+                                <!-- <h4 class="card-title">Basic Table</h4>
+                                <h6 class="card-subtitle">Add class <code>.table</code></h6> -->
+                                <div class="table-responsive">
+
+                                </div>
+                            </div>
+                            <table class="table-hover table-bordered" formArrayName="invoiceItems" cellspacing="10">
+                                <thead>
+                                    <tr>
+                                        <th>Cuenta</th>
+                                        <th>Concepto</th>
+                                        <th>Debito</th>
+                                        <th>Credito</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tr *ngFor="let item of addItemArr.controls; let i=index;" [formGroupName]="i">
+
+                                    <td>
+                                        <mat-form-field class="example-full-width">
+                                            <input type="text" class="font-size" (select)="calculate()" placeholder="Cuenta" (focus)="filterAcc()" size="60px" aria-label="Assignee" matInput formControlName="account" [matAutocomplete]="auto" required>
+                                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayAccFn">
+                                                <mat-option (onclick)="calculate()" *ngFor="let acc of filteredAccOptions | async" [value]="acc">
+                                                    {{ acc.name }}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-line" placeholder="Concepto" size="60px" aria-label="Assignee" formControlName="concept">
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-line" placeholder="Debito" size="60px" aria-label="Assignee" formControlName="debit">
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-line" placeholder="Credito" size="60px" aria-label="Assignee" formControlName="credit">
+                                        </div>
+
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <a (click)="addItem()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                        <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                    </td>
+
+                                    <!-- Select Product -->
+
+                                </tr>
+                            </table>
+
+
+                        </div>
+
+                        <div class="row">
+
+
+                        </div>
+                        <h6 class="card-subtitle">Clabe 729|000049051913 | No.Cheque 00322555 </h6>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

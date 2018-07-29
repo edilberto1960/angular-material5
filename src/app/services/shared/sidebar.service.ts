@@ -17,12 +17,12 @@ export class SidebarService {
     },
     {
       titulo: 'Bancos',
-      icono: 'mdi mdi-folder-lock-open',
+      icono: 'fa fa-bank (alias)',
       submenu: [
         { titulo: 'Graficas', url: '/usuarios' },
         { titulo: 'Alta Cuenta', url: '/bank' },
         { titulo: 'Ingresar Deposito', url: '/medicos' },
-        { titulo: 'Ingresar Cheque', url: '/medicos' },
+        { titulo: 'Ingresar Cheque', url: '/check' },
         { titulo: 'Movimientos', url: '/medicos' }
 
 

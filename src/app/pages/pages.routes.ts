@@ -13,6 +13,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { LoginGuardGuard } from '../services/service.index';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { BankComponent } from './bank/bank.component';
+import { CheckComponent } from './bank/check/check.component';
 
 
 const pagesRoutes: Routes = [
@@ -28,6 +29,8 @@ const pagesRoutes: Routes = [
             { path: 'account-settings', component: AccoutSettingsComponent, data: { titulo: 'Ajustes de Tema' } },
             { path: 'perfil', component: ProfileComponent, data: { titulo: 'Perfil de usuario' } },
             { path: 'bank', component: BankComponent, data: { titulo: 'Seccion Bancos' } },
+            { path: 'check', component: CheckComponent, data: { titulo: 'Agregar Cheque' } },
+
             // Mantenimientos
             { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Mantenimiento de Usuarios' } },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' }

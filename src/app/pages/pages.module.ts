@@ -5,16 +5,19 @@ import { PAGES_ROUTES } from './pages.routes';
 import { SharedModule } from '../shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 // Angular Material
 import {MatFormFieldModule,
+    MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
         MatButtonModule,
         MatInputModule,
         MatRippleModule,
         MatSelectModule} from '@angular/material';
+
 
 
 // import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -41,7 +44,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 import { BankComponent } from './bank/bank.component';
-
+import { CheckComponent } from './bank/check/check.component';
 @NgModule({
     declarations: [
         PagesComponent,
@@ -55,7 +58,8 @@ import { BankComponent } from './bank/bank.component';
         ProfileComponent,
         UsuariosComponent,
         ModalUploadComponent,
-        BankComponent
+        BankComponent,
+        CheckComponent
     ],
     exports: [
         DashboardComponent,
@@ -65,6 +69,8 @@ import { BankComponent } from './bank/bank.component';
     ],
     imports: [
         CommonModule,
+        MatAutocompleteModule,
+        BrowserAnimationsModule,
         MatFormFieldModule,
         MatNativeDateModule,
         MatDatepickerModule,
