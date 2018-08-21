@@ -76,7 +76,7 @@ export class BankComponent implements OnInit {
 
         updateForm() {
           console.log('UPDATE THIS ITEMS');
-     
+
          console.log('THIS FORM: ', this.form);
            // tslint:disable-next-line:prefer-const
            let data = JSON.stringify(this.form.value);

@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 // import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 import { SubirArchivoService } from '../subir-archivo/subir-archivo.service';
-import { pipe } from '../../../../node_modules/rxjs';
+import { pipe } from 'rxjs';
 
 @Injectable()
 export class UsuarioService {

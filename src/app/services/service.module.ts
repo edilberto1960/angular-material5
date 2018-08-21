@@ -29,6 +29,5 @@ import {
     SubirArchivoService,
     ModalUploadService
   ],
-  declarations: []
 })
 export class ServiceModule { }
