@@ -8,14 +8,19 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SubirArchivoService } from '../subir-archivo/subir-archivo.service';
 import { pipe } from 'rxjs';
+import * as jwt_decode from 'jwt-decode';
 
-@Injectable()
+// tslint:disable-next-line:no-inferrable-types
+export const TOKEN_NAME: string = 'jwt_token';
+
+@Injectable({ providedIn: 'root' })
 export class UsuarioService {
 
   usuario: Usuario;
   token: string;
+  currentUser: Boolean = false;
 
-  constructor(
+   constructor(
     public http: HttpClient,
     public router: Router,
     public _subirArchivoService: SubirArchivoService
@@ -24,23 +29,65 @@ export class UsuarioService {
   }
 
   estaLogueado() {
-    return ( this.token.length > 5 ) ? true : false;
+    return ( this.currentUser) ? true : false;
   }
 
   cargarStorage() {
+console.log('CARGAR STORAGE');
 
     if ( localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse( localStorage.getItem('user') );
     } else {
       this.token = '';
-      this.usuario = null;
+     // this.usuario = null;
     }
 
   }
 
+  isTokenExpired(token?: string): boolean {
+    if (!token) {
+
+      token = this.getToken();
+      return true;
+    }
+
+
+    const date = this.getTokenExpirationDate(token);
+    if (date === undefined) {
+
+      return false;
+    }
+    return !(date.valueOf() > new Date().valueOf());
+  }
+
+  getToken(): string {
+    console.log('Token en getToken ', this.token);
+    
+    return localStorage.getItem(this.token);
+  }
+
+   setToken(token: string): void {
+     localStorage.setItem(TOKEN_NAME, token);
+   }
+
+  getTokenExpirationDate(token: string): Date {
+    const decoded = jwt_decode(token);
+
+    if (decoded.exp === undefined) {
+      return null;
+    }
+
+    const date = new Date(0); 
+    date.setUTCSeconds(decoded.exp);
+    return date;
+  }
+
+
   guardarStorage( token: string, usuario: Usuario ) {
 
+    console.log('Recibimos Token ', token);
+    
   //  localStorage.setItem('id', id );
     localStorage.setItem('token', token );
     localStorage.setItem('user', JSON.stringify(usuario) );
@@ -50,12 +97,7 @@ export class UsuarioService {
   }
 
   logout() {
-    this.usuario = null;
-    this.token = '';
-
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-
+    localStorage.removeItem('currentUser');
     this.router.navigate(['/login']);
   }
 
@@ -76,25 +118,33 @@ export class UsuarioService {
 
     if ( recordar ) {
       localStorage.setItem('email', usuario.email );
-    }else {
-      localStorage.removeItem('email');
+    } else {
+
+      console.log('ENTRAMOS A LOGIN CON TOKEN: ', this.token);
+
     }
 
-    let url = URL_SERVICIOS + '/api/login';
+    const url = URL_SERVICIOS + '/api/login';
     return this.http.post( url, usuario ).pipe(
                 map( (resp: any) => {
 
-                  this.guardarStorage( resp.token, resp.user );
+                  if (resp && resp.token) {
 
+                    localStorage.setItem('currentUser', JSON.stringify(resp));
+                    this.currentUser = true;
+                  }
+                  console.log('Respuesta Recivida ', resp);
                   return true;
                 }));
+
+
 
   }
 
 
   crearUsuario( usuario: Usuario ) {
 
-    let url = URL_SERVICIOS + '/usuario';
+    const url = URL_SERVICIOS + '/usuario';
 
     return this.http.post( url, usuario ).pipe(
               map( (resp: any) => {
@@ -113,7 +163,7 @@ export class UsuarioService {
                 map( (resp: any) => {
 
                   if ( usuario._id === this.usuario._id ) {
-                    let usuarioDB: Usuario = resp.usuario;
+                    const usuarioDB: Usuario = resp.usuario;
                     this.guardarStorage( this.token, usuarioDB );
                   }
 
@@ -142,14 +192,14 @@ export class UsuarioService {
 
   cargarUsuarios( desde: number = 0 ) {
 
-    let url = URL_SERVICIOS + '/usuario?desde=' + desde;
+    const url = URL_SERVICIOS + '/usuario?desde=' + desde;
     return this.http.get( url );
 
   }
 
   buscarUsuarios( termino: string ) {
 
-    let url = URL_SERVICIOS + '/busqueda/coleccion/usuarios/' + termino;
+    const url = URL_SERVICIOS + '/busqueda/coleccion/usuarios/' + termino;
     return this.http.get( url ).pipe(
                 map( (resp: any) => resp.usuarios ));
 

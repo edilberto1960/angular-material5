@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule } from '@angular/core';
 import { PAGES_ROUTES } from './pages.routes';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { BrowserModule } from '@angular/platform-browser';
@@ -45,6 +45,9 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 import { BankComponent } from './bank/bank.component';
 import { CheckComponent } from './bank/check/check.component';
+
+
+
 @NgModule({
     declarations: [
         PagesComponent,
@@ -86,5 +89,6 @@ import { CheckComponent } from './bank/check/check.component';
         FormsModule,
         ReactiveFormsModule
     ]
+
 })
 export class PagesModule { }

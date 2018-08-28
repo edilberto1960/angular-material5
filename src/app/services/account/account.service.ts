@@ -1,33 +1,31 @@
 import { Injectable } from '@angular/core';
+import { AccountName } from '../../models/account.model';
 import { URL_SERVICIOS } from '../../config/config';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Usuario } from '../../models/usuario.model';
-import { Supplier } from '../../models/supplier.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UsuarioService } from '../usuario/usuario.service';
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class SupplierService {
+export class AccountService {
 
   usuario: Usuario;
   token: string;
-  private urlEndPoint = URL_SERVICIOS + '/api/supplier';
+  private urlEndPoint = URL_SERVICIOS + '/api/account';
   private httpHeaders = new HttpHeaders();
 
 
-
-  constructor(private http: HttpClient,
-              private usuarioService: UsuarioService) { this.cargarStorage(); }
+  constructor(private http: HttpClient) { this.cargarStorage(); }
 
   cargarStorage() {
+  console.log('TOKEN', this.token);
 
     if ( localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse( localStorage.getItem('user') );
+      console.log('TOKEN5', this.token);
     } else {
       this.token = '';
       this.usuario = null;
@@ -36,13 +34,14 @@ export class SupplierService {
   }
 
   // agregar: , {headers: this.httpHeaders}
-  getAllSuppliers(): Observable<Supplier[]> {
+  getAllAccounts(): Observable<AccountName[]> {
 
     // this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.token});
       // url += '?token=' + this.token;
-      return this.http.get<Supplier[]>(this.urlEndPoint + '/getAllSuppliers/')
+      return this.http.get<AccountName[]>(this.urlEndPoint + '/getAllAccounts/')
       .pipe(
-        map(response => response as Supplier[]));
+        map(response => response as AccountName[]));
     }
+
 
 }

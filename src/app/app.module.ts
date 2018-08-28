@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 
 // Rutas
 import { APP_ROUTES } from './app.routes';
@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Servicios
 import { ServiceModule } from './services/service.module';
-
+import { ErrorService } from './error.service';
 
 
 
@@ -20,12 +20,15 @@ import { ServiceModule } from './services/service.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register.component';
+import { AuthRequestOptions } from './auth-request';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent
+
   ],
   imports: [
     BrowserModule,
@@ -33,9 +36,21 @@ import { RegisterComponent } from './login/register.component';
     PagesModule,
     FormsModule,
     ReactiveFormsModule,
-    ServiceModule
+    ServiceModule,
+    // ErrorService
   ],
-  providers: [],
+  providers: [
+    ErrorService,
+    {
+      provide: ErrorHandler,
+      useClass: ErrorService
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthRequestOptions,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

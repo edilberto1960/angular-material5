@@ -56,14 +56,14 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <!-- <label for="nombre">ID</label> -->
-                                <input type="text" readonly="readonly" formControlName="id" name="nameBank" class="form-control input-sm" id="nombre" placeholder="Id Banco">
+                                <input type="text" readonly="readonly" formControlName="id" name="nameBank" class="form-control input-sm" id="id" placeholder="Id Banco">
                             </div>
 
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6" [ngClass]="{'has-danger': !form.get('nameBank').valid}">
                                 <!-- <label for="nombre">Nombre del Banco</label> -->
-                                <input type="text" formControlName="nameBank" name="nameBank" class="form-control" id="nombre" placeholder="Nombre del Banco">
+                                <input type="text" formControlName="nameBank" name="nameBank" class="form-control" id="nameBank" placeholder="Nombre del Banco">
                                 <!-- <div *ngIf="form.controls['nameBank'].errors?.required" class="form-control-feedback">
                     <small>El nombre del Banco es necesario</small>
                 </div> -->
@@ -93,7 +93,7 @@
                             </div>
                             <div class="form-group col-md-6" [ngClass]="{'has-danger': !form.get('phone').valid}">
                                 <!-- <label for="inputPassword4">Telefono de contacto</label> -->
-                                <input type="text" formControlName="phone" name="phone" class="form-control" id="inputPassword4" placeholder="Telefono de contacto">
+                                <input type="text" formControlName="phone" name="phone" class="form-control" id="phone" placeholder="Telefono de contacto">
                             </div>
                         </div>
 

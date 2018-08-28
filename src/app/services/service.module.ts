@@ -11,6 +11,7 @@ import {
   UsuarioService,
   LoginGuardGuard,
   SubirArchivoService
+
  } from './service.index';
 
 
@@ -28,6 +29,7 @@ import {
     BankService,
     SubirArchivoService,
     ModalUploadService
+
   ],
 })
 export class ServiceModule { }

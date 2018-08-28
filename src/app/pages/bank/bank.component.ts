@@ -59,8 +59,7 @@ export class BankComponent implements OnInit {
    }
 
   save() {
-     console.log('SAVE ITEMS');
-
+    console.log('SAVE ITEMS');
     console.log('THIS FORM: ', this.form);
       // tslint:disable-next-line:prefer-const
       let data = JSON.stringify(this.form.value);
@@ -72,7 +71,7 @@ export class BankComponent implements OnInit {
       // console.log(jsonData.invoiceItems[0].qty);
 
        this.create(jsonData);
-        }
+    }
 
         updateForm() {
           console.log('UPDATE THIS ITEMS');

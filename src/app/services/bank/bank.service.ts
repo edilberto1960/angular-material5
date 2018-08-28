@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BankAccount } from '../../models/bank.model';
+import { BankAccount, BankTransaction } from '../../models/bank.model';
 import { Usuario } from '../../models/usuario.model';
 import { URL_SERVICIOS } from '../../config/config';
 
@@ -24,7 +24,10 @@ export class BankService {
   cargarStorage() {
 
     if ( localStorage.getItem('token')) {
+
       this.token = localStorage.getItem('token');
+      console.log('Token en bankService ', this.token);
+
       this.usuario = JSON.parse( localStorage.getItem('user') );
     } else {
       this.token = '';
@@ -41,12 +44,16 @@ export class BankService {
   }
 
   getAllAccounts(): Observable<BankAccount[]> {
+    this.token = localStorage.getItem('token');
+   console.log('TOKEN EN GETALLACCOUNTS ', this.token);
+
 
   this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.token});
     // url += '?token=' + this.token;
     return this.http.get<BankAccount[]>(this.urlEndPoint + '/api/bank/getAllBankAccounts/', {headers: this.httpHeaders})
     .pipe(
-      map(response => response as BankAccount[]));
+      map(response => response as BankAccount[]),
+      map(err =>  err) );
   }
 
   updateBankAccount(data: BankAccount): Observable<BankAccount> {
@@ -58,5 +65,14 @@ export class BankService {
       // .pipe(
       //   map(response => response as BankAccount));
     }
+
+    createTransaction(bankTransaction: BankTransaction): Observable<BankTransaction> {
+      const url = URL_SERVICIOS + '/api/bank/addBankAccount/';
+    this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.token});
+      // url += '?token=' + this.token;
+      return this.http.post<BankTransaction>(this.urlEndPoint +
+         '/api/bank/add-bank-transaction/', bankTransaction, {headers: this.httpHeaders});
+    }
+
 
 }

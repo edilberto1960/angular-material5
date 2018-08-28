@@ -2,24 +2,30 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Alimentos Naturales de Trigo Germinado S.A. de C.V.</h4>
-                        <mat-form-field>
-                            <input type="text" (click)="cargardatos()" placeholder="Banco:" matInput formControlName="bank" (focus)="filterBank()" [matAutocomplete]="auto1">
-                            <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayBankFn">
-                                <mat-option *ngFor="let option of filteredBankOptions | async" [value]="option">
-                                    {{option.nameBank}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
+                        <div class="row">
+                            <div class="col-md-8">
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="card-subtitle">No. de Referencia</label>
-                                <input type="text" class="form-control form-control-line" formControlName="reference" placeholder="Fecha de expedicion">
+                                <mat-form-field>
+                                    <input type="text" [readOnly]="poliza" (click)="cargardatos()" placeholder="Banco:" matInput formControlName="bank" (focus)="filterBank()" [matAutocomplete]="auto1">
+                                    <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayBankFn">
+                                        <mat-option *ngFor="let option of filteredBankOptions | async" [value]="option">
+                                            {{option.nameBank}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
 
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input type="number" matInput formControlName="reference" placeholder="No de Cheque o Referencia">
+                                    </mat-form-field>
+
+                                </div>
                             </div>
                         </div>
 
@@ -28,13 +34,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="card-subtitle">fecha de emision</label>
-                                    <input type="date" class="form-control form-control-line" formControlName="date" placeholder="Fecha de expedicion">
+                                    <input type="date" [readOnly]="poliza" class="form-control form-control-line" formControlName="date" placeholder="Fecha de expedicion">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="card-subtitle">fecha de operacion</label>
-                                    <input type="date" class="form-control form-control-line" formControlName="dateOperation" placeholder="Fecha de expedicion">
+                                    <input type="date" [readOnly]="poliza" class="form-control form-control-line" formControlName="dateOperation" placeholder="Fecha de expedicion">
 
                                 </div>
                             </div>
@@ -44,7 +50,7 @@
                                 <div class="form-group">
 
                                     <mat-form-field class="input-full-width">
-                                        <input type="text" (click)="loadSupplier()" placeholder="Extendido a Nombre de" matInput formControlName="supplier" (focus)="filterSupplier()" [matAutocomplete]="supplier">
+                                        <input type="text" [readOnly]="poliza" (click)="loadSupplier()" placeholder="Extendido a Nombre de" matInput formControlName="suppliers" (focus)="filterSupplier()" [matAutocomplete]="supplier">
                                         <mat-autocomplete #supplier="matAutocomplete" [displayWith]="displaySupplierFn">
                                             <mat-option *ngFor="let suppliers of filteredSupplierOptions | async" [value]="suppliers">
                                                 {{ suppliers.nameSupplier }}
@@ -57,7 +63,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon">$</span>
-                                        <input type="number" formControlName="checkAmount" class="form-control form-control-line" aria-label="Amount (to the nearest dollar)">
+                                        <input type="number" [readOnly]="poliza" formControlName="checkAmount" class="form-control form-control-line" aria-label="Amount (to the nearest dollar)">
 
                                     </div>
                                     <div *ngIf="form.controls['checkAmount'].errors?.pattern" class="form-control-feedback">
@@ -69,17 +75,23 @@
 
                         <div class="form-group">
                             <mat-form-field class="input-full-width">
-                                <input type="text" matInput formControlName="description" placeholder="Descripcion">
+                                <input type="text" [readOnly]="poliza" matInput formControlName="description" placeholder="Descripcion">
                             </mat-form-field>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">-</div>
-                            <div class="col-md-4">-</div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-line" placeholder="Autorizacion">
-                                </div>
+
+                            <div class="col-md-8">Generar Poliza</div>
+
+
+                            <div class="col-md-2">
+                                <button (click)="addPolizaAutom()" [disabled]="poliza" type="button" class="btn btn-outline-info">Automatica </button>
                             </div>
+                            <div class="col-md-2">
+                                <button (click)="addPolizaManual()" [hidden]="polizaAutomatic" [disabled]="poliza" type="button" class="btn btn-outline-warning">Manual </button>
+                            </div>
+
+
+
                         </div>
 
                         <span class="label label-info">Banco : {{banks.nameBank}} | {{banks.accountNumber}} | No.Cheque 00322555 </span>
@@ -106,6 +118,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="card-body">
                                 <!-- <h4 class="card-title">Basic Table</h4>
@@ -138,7 +151,7 @@
 
                                     <td>
                                         <mat-form-field class="example-full-width">
-                                            <input type="text" class="font-size" (select)="calculate()" placeholder="Cuenta" (focus)="filterAcc()" size="60px" aria-label="Assignee" matInput formControlName="account" [matAutocomplete]="auto" required>
+                                            <input type="text" (click)="loadAccount()" class="font-size" (select)="calculate()" placeholder="Cuenta" (focus)="filterAcc()" size="60px" aria-label="Assignee" matInput formControlName="account" [matAutocomplete]="auto" required>
                                             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayAccFn">
                                                 <mat-option (onclick)="calculate()" *ngFor="let acc of filteredAccOptions | async" [value]="acc">
                                                     {{ acc.nameAccount }}
@@ -155,18 +168,18 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="number" class="form-control form-control-line" placeholder="Debito" size="60px" aria-label="Assignee" formControlName="debit" required="required"> </div>
+                                            <input type="number" [readOnly]="poliza" class="form-control form-control-line" placeholder="Debito" size="60px" aria-label="Assignee" formControlName="debit" required="required"> </div>
 
                                     </td>
 
                                     <td>
                                         <div class="form-group">
-                                            <input type="number" class="form-control form-control-line" placeholder="Credito" size="60px" aria-label="Assignee" formControlName="credit">
+                                            <input type="number" [readOnly]="poliza" class="form-control form-control-line" placeholder="Credito" size="60px" aria-label="Assignee" formControlName="credit">
                                         </div>
 
                                     </td>
-                                    <td class="text-nowrap">
-                                        <a (click)="addItem()" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <td class="text-nowrap" [hidden]="polizaAutomatic">
+                                        <a (click)="addItem()" class data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
                                         <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
                                     </td>
 
@@ -201,9 +214,12 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-10">
+            <div class="form-group col-md-8">
                 <label [hidden]="form.valid" class="text-danger">Llene todos los campos para poder enviar</label>
                 <label [hidden]="!form.valid" class="text-info">La forma esta lista para enviar</label>
+            </div>
+            <div class="form-group col-md-2">
+                <button (click)="cleanForm()" [disabled]="!form.valid" class="btn btn-outline-warning">Cancelar</button>
             </div>
             <div class="form-group col-md-2">
                 <button (click)="save()" [hidden]="!update" [disabled]="!form.valid" class="btn btn-primary">Enviar</button>

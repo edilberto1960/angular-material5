@@ -12,3 +12,20 @@ export class BankAccount {
 
 }
 
+export class BankTransaction {
+
+    public id: number;
+    public date: Date;
+    public dateOperation: Date;
+    public reference: number;
+    public description: String;
+    public depositAmount: number;
+    public checkAmount: number;
+    public balance: number;
+    public bank: {};
+    public accountingItems: {};
+    public suppliers: {};
+
+
+}
+
